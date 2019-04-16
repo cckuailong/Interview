@@ -18,19 +18,23 @@
 	1) 分组窃听与伪造应答
 		攻击者窃听到递归服务器的查询请求，并在权威服务器应答前，伪造应答信息进行应答。
 ![](https://github.com/cckuailong/Interview/blob/master/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/img/1.png)
+
 	2) ID猜测与查询预测
 		攻击者无法窃听，但可以根据受害者行为来猜测请求查询ID及受害者客户端UDP端口，从而伪造信息进行应答。
 ![](https://github.com/cckuailong/Interview/blob/master/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/img/2.png)
+
 	3) Kaminsky攻击
 		a. 攻击者通过受操控客户端查询一个不存在的域名
 		b. 递归服务器缓存没有命中，开始迭代查询（问权威服务器）
 		c. 攻击者服务端通过ID猜测，发送大量伪造应答包，对缓存进行下毒。
 ![](https://github.com/cckuailong/Interview/blob/master/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/img/3.png)
+
 	4) 名字链
 		a. 受控客户端发送攻击者域名查询
 		b. 递归服务器访问攻击者服务器
 		c. 攻击者服务器伪造应答：攻击者服务器域名-->被攻击者域名-->伪造的被攻击者IP
 ![](https://github.com/cckuailong/Interview/blob/master/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/img/4.png)
+
 	5) 可信服务器欺骗
 		连上不可信网络（恶意wifi等）
 ![](https://github.com/cckuailong/Interview/blob/master/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/img/5.png)
