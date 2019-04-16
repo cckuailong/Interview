@@ -38,3 +38,29 @@
 	5) 可信服务器欺骗
 		连上不可信网络（恶意wifi等）
 ![](https://github.com/cckuailong/Interview/blob/master/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/img/5.png)
+
+### DNSSEC
+	1) KSK对zone中的ZSK签名
+	2) ZSK对zone中的RR进行签名
+	3) ZSK对subzone的KSK的DS进行签名，并将其放在当前zone
+	4) 信任链：DNSKEY-->[DS-->DNSKEY]*-->RRset
+	
+### 密钥分离优点
+	1) ZSK更新时，不需要父子zone交互
+	2) KSK可以很长，安全性高，不需要经常使用，更新频率低
+	3) ZSK相对较短，加密速度快，需要经常使用，更新频率较高
+	
+### NSEC
+	对DNS否定存在的认证（证实dns不存在）
+	域名空间呈环形
+	右标签开始，向左排序，若域名，type，class，TTL(缺省值)都相同，按RDATA排序。
+	问题：
+		zone walking: 暴露zone数据
+	解决：
+		NSEC3：域名多次hash后排序
+		
+### 密钥滚动：
+	1) 提前发布key：
+		不需要签两次名，但是步骤增加，KSK更新更加复杂
+	2) 同时发布key和sig：
+		需要签两次名，步骤简单
