@@ -52,3 +52,13 @@
 	4) XXE防御方法
 		a. 禁用外部实体声明
 		b. 过滤关键词（<!DOCTYPE，<!ENTITY，SYSTEM等）
+### 反序列化漏洞
+##### 序列化和反序列化
+1) 序列化：    	把Object转化成字节流，便于保存( eg. Java writeObject() )
+
+2) 反序列化：	把字节流还原成Object ( eg. Java readObject() )
+##### 反序列化漏洞
+程序对于用户输入的进行反序列化处理，可能导致恶意payload导致的任意代码执行。
+##### 影响
+Java, PHP, Python等主流计算机语言都存在这种代码隐患。
+
