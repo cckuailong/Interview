@@ -1,5 +1,12 @@
 ### dom xss
-
+	注入方式是本地客户端的js处理用户输入时，发生的xss
+	主要有三种方式：
+	1) document.getElementBtId('a').innerHTML = $var$
+		$var$ = alert(1)不会执行，需要使用 <img src="" onerror=alert(1);>
+	2) document.location = $var$
+		可以使用js伪协议，$var$ = javascript:alert(1)
+	3) eval($var$)
+		$var$ = alert(1)，其他执行库也可以，setInterval(),setTimeout()
 
 ### 富文本XSS防御
 	1) 前后端穷举有限标签和属性，进行白名单过滤。后端不能直接信任前端数据，需要基于白名单再次过滤。推荐django-xss-cleaner
