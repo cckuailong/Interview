@@ -68,11 +68,23 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 	4) 寻找漏洞：
 	分享：通过URL地址分享网页内容，url形式加载图片，未公开的api，转码、翻译页面
 
-### 本地文件包含，函数，写文件
+### 本地文件包含
 	1) php函数：include(), require(), include_once(), require_once()
 		包含失败include警告，require错误
 		php文件包含机制有个特性：哪怕被包含的文件是个txt文件，它也会被包含文件
 		所在的服务器当作脚本去执行
+	2) 利用方式：
+		a. 基本LFI，直接读取出文件内容，如/etc/passwd。
+			有些网站为了防止目录穿越，过滤了 ../ ,这时可以使用绝对路径进行文件读取
+		b. %00截断（php5.3以下，不能转义magic_quotes_gpc设置为off）
+			有些网站为了防御，会为文件加后缀，可以使用%00进行截断
+		c. php://filter/read=convert.base64encode/resource=/etc/passwd
+			安全级别高，且无法查看内容
+		d. lan=php://input&cmd=ls	postdata="<?php system($_GET['cmd']);?>"
+			使用php://input函数，通过执行注入PHP代码来利用LFI漏洞
+		e. ../../../Proc/self/environ
+			User-Agent的信息会被写入/proc/self/environ，可以将小马写入这个文件，
+			然后本地包含/proc/self/environ，执行php命令
 
 ### 宽字节注入
 	1) 形成原因：
@@ -85,6 +97,7 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 ### 哈希长度扩展攻击
 	1) Merkle–Damgård算法（md5，sha1）
 ![](https://github.com/cckuailong/Interview/blob/master/images/hash.png)
+
 	每512字节分成一块，最后一块使用1000...进行填充，最后64字节存放原始字符串长度。
 	2) 哈希长度扩展攻击
 	由于后一块的输入是前一块的输出+message，所以只需要知道前一块的message长度和前一块的
