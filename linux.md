@@ -4,3 +4,6 @@
 	3) lsof -c process	查看某个进程打开的文件，同lsof | grep process
 	4) lsof -u user		查看某个用户打开的文件
 	
+### echo
+	-e 激活转义字符
+	
