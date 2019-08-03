@@ -109,7 +109,7 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 	2) 利用方式：
 		a. 基本LFI，直接读取出文件内容，如/etc/passwd。
 			有些网站为了防止目录穿越，过滤了 ../ ,这时可以使用绝对路径进行文件读取
-		b. %00截断（php5.3以下，不能转义magic_quotes_gpc设置为off）
+		b. %00截断（php5.3以下，不能转义，magic_quotes_gpc设置为off）
 			有些网站为了防御，会为文件加后缀，可以使用%00进行截断
 		c. php://filter/read=convert.base64encode/resource=/etc/passwd
 			安全级别高，且无法查看内容
@@ -157,3 +157,44 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 		防御彩虹表，拿到散列后信息，由于没有K，无法获得发送的原始密码。
 		但是不能防止重放攻击。
 	4) CMAC: 分组哈希，也使用K，每个组H(K,M[i])后异或下一组的M[i+1],作为输入
+	
+### 防范羊毛党
+	1) 注册时，适当增加注册难度（验证码等）
+	2) 账号（手机号）黑名单
+	3) 设备指纹
+	
+### 密码找回的逻辑漏洞
+	1) 返回的凭证太简单，可暴力猜解（当当网）
+	2) 凭证在返回数据中
+	3) 凭证生成算法简单，比如时间戳md5（360）
+	4) 发送的凭证可以修改其他账户
+	5) 手机，邮箱可重新绑定
+	6) 修改提交时，可指定user修改
+	
+### 绕过IDS
+	1) ./	-->	./././test././test.php
+	2) %00	-->	test/test.php%00abcdef 
+	3) \	-->	IIS会识别'\'，路径分隔符使用'\'或%5c
+	4) 16进制编码
+	5) unicode编码 --> IIS Unicode解码漏洞（IIS4.0/5.0会解析Unicode，可以藏入'/','\'等进行目录遍历）
+	6) '////'多个'/'
+	7) 多态编码
+
+### DNS劫持
+	方式：
+		a. 中间人攻击，返回错误的解析结果
+		b. 运营商DNS递归服务器，或CDN，缓存下毒
+	防护：
+		a. 设置静态可信DNS服务器，8.8.8.8
+		b. waf
+		
+### Linux 中让命令在后台运行的方法
+	1) nohup ${cmd} &
+	2) screen -S (-r) ${name}
+	3) tmux new-session (a -t) ${name}  同session协作
+	
+### 入侵Linux服务器后需要清除哪些日志
+	1) web日志，如apache的access.log，error.log。直接将日志清除过于明显,一般使用sed进行定向清除 e.g. sed -i -e '/192.169.1.1/d'
+	2) history命令的清除，也是对~/.bash_history进行定向清除
+	3) wtmp用户登录日志的清除，/var/log/wtmp
+	4) 登录日志清除 /var/log/secure，只要有登录的软件，就会记录到此文件
