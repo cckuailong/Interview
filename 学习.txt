@@ -1,0 +1,37 @@
+1. mysql cast convert 类型转化 [string to int, etc.]
+2. nvarchar(n)：包含n个字符的可变长度Unicode字符数据。n的值必须介于1与4,000之间。字节的存储大小是所输入字符个数的两倍。所输入的数据字符长度可以为零。
+3. ISNULL(check_expression,replacement_value)
+	1) check_expression与replacement_value的数据类型必须一致。
+	2) 如果check_expression为NULL,则返回replacement_value。
+	3) 如果check_expression为NULL,则返回check_expression
+4. python trantab = maketrans(intab, outtab) -- 生成映射表
+		  res = translate(trantab) 
+5. oracle特殊表DUAL，每个数据库都有，永远有且只有一条数据'X', mysql 也可以使用，但是不必须
+6. plsql chr() --> int转char	|| --> 连接字符(串)
+7. sql inj 
+	普通注入方式 --> ' or '1'='1
+	新注入方式 --> %' AND 1=2 AND '%'='
+8. MSSQL md5方式很特别 --> sys.fn_varbintohexstr(hashbytes('MD5','1234'))
+9. mysql --> BENCHMARK(count,expr)  BENCHMARK会重复计算expr表达式count次
+10. mysql ELT(N ,str1 ,str2 ,str3 ,…)
+	--> 函数使用说明：若 N = 1 ，则返回值为 str1 ，若 N = 2 ，则返回值为 str2 ，以此类推。 若 N 小于 1 或大于参数的数目，则返回值为 NULL 。 ELT() 是 FIELD() 的补数
+11. mysql FIELD(str, str1, str2, str3, ……)
+	--> 该函数返回的是 str 在面这些字符串的位置的索引，如果找不到返回 0
+	可以作为开关 field(1>1,sleep(1)) --> sleep		field(1=1,sleep(1)) --> no sleep
+12. mysql like:
+	% --> 0或多个
+	_ --> 1个
+	like '%_/_' escape '/' --> '/'后的字符不作为通配符（被转义）
+13. mysql procedure analyse 为步骤分析工具（用于limit报错注入）
+
+```
+1导出整个数据库表结构
+mysqldump -h localhost -uroot -proot  -d pats_db_1 > ***.sql
+2导出整个数据库表数据
+mysqldump -h localhost -uroot -proot  -t pats_db_1 > ***.sql
+3导出整个数据库表结构和数据
+mysqldump -h localhost -uroot -proot   pats_db_1 > ***.sql
+4导出单个表结构和数据
+mysqldump -h localhost -uroot -proot   database table > ***.sql
+```
+
