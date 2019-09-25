@@ -198,3 +198,15 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 	2) history命令的清除，也是对~/.bash_history进行定向清除
 	3) wtmp用户登录日志的清除，/var/log/wtmp
 	4) 登录日志清除 /var/log/secure，只要有登录的软件，就会记录到此文件
+	
+## 反序列化漏洞
+#### 序列化和反序列化
+1) 序列化：
+	把Object转化成字节流，便于保存( eg. Java writeObject() )
+2) 反序列化：
+	把字节流还原成Object ( eg. Java readObject() )
+#### 反序列化漏洞
+程序对于用户输入的进行反序列化处理，可能导致恶意payload导致的任意代码执行。
+#### 影响
+Java, PHP, Python等主流计算机语言都存在这种代码隐患。
+
