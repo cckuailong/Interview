@@ -10,6 +10,6 @@
 * [安全知识](https://github.com/cckuailong/Interview/blob/master/Security.md)
 	* [基本](https://github.com/cckuailong/Interview/blob/master/Security.md)
 	* [扩展](https://github.com/cckuailong/Interview/blob/master/Security-extension.md)
-* [Linux命令](https://github.com/cckuailong/Interview/blob/master/Linux.md)
+* [Linux命令](https://github.com/cckuailong/Interview/blob/master/Linux-cmd.md)
 * [语言](https://github.com/cckuailong/Interview/blob/master/Language.md)
 * [其他](https://github.com/cckuailong/Interview/blob/master/Others.md)
