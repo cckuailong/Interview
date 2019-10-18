@@ -10,3 +10,7 @@
 	3) Event:	有一个专门的线程管理keep-alive类型的线程，当有接收到真实请求时，它会传递给服务线程，执行完毕后，允许其释放资源
 	(P.S.)解决了Worker的什么问题？
 	keep-alive场景下，没有请求发送的时候，线程会一直占用资源，造成资源浪费。
+	
+### API网关
+	针对微服务API设计的服务器。
+	这篇文章讲的很好 [谈谈微服务中的 API 网关（API Gateway）](https://www.cnblogs.com/savorboard/p/api-gateway.html)
