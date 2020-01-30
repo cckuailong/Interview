@@ -14,3 +14,8 @@
 ### API网关
 	针对微服务API设计的服务器。
 	这篇文章讲的很好 [谈谈微服务中的 API 网关（API Gateway）](https://www.cnblogs.com/savorboard/p/api-gateway.html)
+
+### BOM弹窗
+	1) alert("a")
+	2) confirm("a")
+	3) prompt("a", "b")
