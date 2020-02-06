@@ -198,8 +198,8 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 	2) history命令的清除，也是对~/.bash_history进行定向清除
 	3) wtmp用户登录日志的清除，/var/log/wtmp
 	4) 登录日志清除 /var/log/secure，只要有登录的软件，就会记录到此文件
-	
-## 反序列化漏洞
+
+### 反序列化漏洞
 #### 序列化和反序列化
 1) 序列化：
 	把Object转化成字节流，便于保存( eg. Java writeObject() )
@@ -210,3 +210,9 @@ select rpad('a',4999999,'a') RLIKE concat(repeat('(a.*)+',30),'b');
 #### 影响
 Java, PHP, Python等主流计算机语言都存在这种代码隐患。
 
+### 文件上传漏洞修复
+	1) 限制上传：文件后缀，文件类型，文件内容
+	2) 上传后文件重命名
+	3) 文件压缩重生成
+	4) 文件上传目录不加执行权限
+	5) 文件上传目录与Web分离
