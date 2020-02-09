@@ -1,9 +1,12 @@
+### rsync：同步两个目录
+	1) rsync -r src dst
+
 ### lsof：查找所有进程打开文件的信息
 	1) lsof file 		查看单个文件相关进程
 	2) lsof -c process	查看某个进程打开的文件，同lsof | grep process
 	3) lsof -u user		查看某个用户打开的文件
 	
-### echo
+### echo：打印字符串
 	1) -e 激活转义字符
 	
 ### grep：文件中查找字符串 [grep string file]
